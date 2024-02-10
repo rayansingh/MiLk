@@ -62,7 +62,7 @@ class Matrix{
             }
             std::cout<<"]";
             if(i < m-1){
-                std::cout<<std::endl;
+                std::cout<<","<<std::endl;
             }
         }
         std::cout<<"]"<<std::endl;
@@ -81,7 +81,7 @@ class Matrix{
         unsigned i,j;
         for(i = 0; i < m; i++){
             for(j = 0; j < n; j++){
-                this->values[i][j] = values[i][j];
+                values[i][j] = values[i][j];
             }
         }
     }
@@ -90,10 +90,88 @@ class Matrix{
         deallocate_values();
     }
 
+    void operator=(const Matrix<T>& other){
+        if(values != nullptr){
+            deallocate_values();
+        }
+        m = other.m;
+        n = other.n;
+
+        allocate_values();
+        
+        unsigned i,j;
+
+        for(i = 0; i < m; i++){
+            for(j = 0; j < n; j++){
+                values[i][j] = other.values[i][j];
+            }
+        }
+    }
+
+    bool operator==(const Matrix<T>& other) const{
+        // Check that dimensions are equal
+        if(m != other.m || n != other.n){
+            std::cout<<"Invalid Dimensions for Matrix Addition"<<std::endl;
+            return false;
+        }
+
+        unsigned i,j;
+
+        for(i = 0; i < m; i++){
+            for(j = 0; j < n; j++){
+                if(!(values[i][j] == other.values[i][j])){
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    Matrix<T>* operator+(const Matrix<T>& other) const{
+        // Check that dimensions are equal
+        if(m != other.m || n != other.n){
+            std::cout<<"Invalid Dimensions for Matrix Addition"<<std::endl;
+            return nullptr;
+        }
+
+        Matrix<T>* C = new Matrix<T>(m,n);
+
+        unsigned i,j;
+
+        for(i = 0; i < m; i++){
+            for(j = 0; j < n; j++){
+                C->set(i,j,values[i][j]+other.values[i][j]);
+            }
+        }
+
+        return C;
+    }
+
+    Matrix<T>* operator-(const Matrix<T>& other) const{
+        // Check that dimensions are equal
+        if(m != other.m || n != other.n){
+            std::cout<<"Invalid Dimensions for Matrix Subtraction"<<std::endl;
+            return nullptr;
+        }
+
+        Matrix<T>* C = new Matrix<T>(m,n);
+
+        unsigned i,j;
+
+        for(i = 0; i < m; i++){
+            for(j = 0; j < n; j++){
+                C->set(i,j,values[i][j]-other.values[i][j]);
+            }
+        }
+
+        return C;
+    }
+
     Matrix<T>* operator*(const Matrix<T>& other) const{
         // Check that dimensions are valid
         if(n != other.m){
-            std::cout<<"Invalid Dimensions"<<std::endl;
+            std::cout<<"Invalid Dimensions for Matrix Multiplication"<<std::endl;
             return nullptr;
         }
 
