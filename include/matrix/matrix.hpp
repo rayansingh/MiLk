@@ -90,6 +90,21 @@ class Matrix{
         deallocate_values();
     }
 
+    void normalize_rows(){
+        unsigned i,j;
+        T sum;
+
+        for(i = 0; i < m; i++){
+            sum = 0;
+            for(j = 0; j < n; j++){
+                sum += values[i][j];
+            }
+            for(j = 0; j < n; j++){
+                values[i][j] /= sum;
+            }
+        }
+    }
+
     Matrix<T>* transpose(){
         Matrix<T>* C = new Matrix<T>(n,m);
 
