@@ -90,6 +90,20 @@ class Matrix{
         deallocate_values();
     }
 
+    Matrix<T>* transpose(){
+        Matrix<T>* C = new Matrix<T>(n,m);
+
+        unsigned i,j;
+
+        for(i = 0; i < m; i++){
+            for(j = 0; j < n; j++){
+                C->set(j,i,values[i][j]);
+            }
+        }
+
+        return C;
+    }
+
     void operator=(const Matrix<T>& other){
         if(values != nullptr){
             deallocate_values();

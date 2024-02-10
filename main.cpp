@@ -27,7 +27,8 @@ int main(){
     A.print();
     B.print();
 
-    Matrix<float>* C = A*B;
+    // Matrix<float>* C = A*B;
+    // Matrix<float>* C = A.transpose();
     C->print();
 
     std::cout<<std::endl;
