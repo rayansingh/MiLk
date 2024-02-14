@@ -1,36 +1,25 @@
 #include <iostream>
 #include "include/matrix/matrix.hpp"
+#include "include/tensor/tensor.hpp"
 
 using namespace std;
 
 int main(){
-    int a_m = 3;
-    int a_n = 3;
-    int b_m = 3;
-    int b_n = 3;
+    int dims[2] = {5,3};
 
-    Matrix<float> A = Matrix<float>(a_m,a_n);
-    Matrix<float> B = Matrix<float>(b_m,b_n);
+    Tensor* t1 = new Tensor(2,dims);
+    Tensor* t2 = new Tensor(2,dims);
 
-    unsigned i,j;
-    for(i = 0; i < a_m; i++){
-        for(j = 0; j < a_n; j++){
-            A.set(i,j,i*a_n+j);
-        } 
-    }
-    for(i = 0; i < b_m; i++){
-        for(j = 0; j < b_n; j++){
-            B.set(i,j,i*b_n+2*j);
-        } 
-    }
+    t1->set(0.212,4);
+    t1->print();
 
-    A.print();
-    B.print();
+    t2->set(0.1122, 4);
+    t2->print();
 
-    // Matrix<float>* C = A*B;
-    // Matrix<float>* C = A.transpose();
-    C->print();
+    Tensor* t3 = *t1-*t2;
+    t3->print();
 
-    std::cout<<std::endl;
-    delete C;
+    delete t1;
+    delete t2;
+    delete t3;
 }
