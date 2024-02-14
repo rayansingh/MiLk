@@ -17,6 +17,7 @@ class Tensor {
 
     Tensor* operator+(Tensor& other);
     Tensor* operator-(Tensor& other);
+    Tensor* operator*(Tensor& other);
 
     float get(int coords);
     float get(int* coords, int num_coords);

@@ -12,6 +12,10 @@ Tensor::Tensor(int dim, int* dims): dim(dim) {
         this->dims[i] = dims[i];
     }
     this->data = new float[size];
+
+    for(i = 0; i < size; i++){
+        this->data[i] = 0.0;
+    }
 }
 
 Tensor::Tensor(float* data, int dim, int* dims){
@@ -94,6 +98,36 @@ Tensor* Tensor::operator-(Tensor& other){
     }
 
     return sum;
+}
+
+Tensor* Tensor::operator*(Tensor& other){
+    if(dim != other.dim || dim != 2){
+        return NULL;
+    }
+
+    // Check that dimensions are valid
+    if(dims[1] != other.dims[0]){
+        std::cout<<"Invalid Dimensions for Matrix Multiplication"<<std::endl;
+        return nullptr;
+    }
+
+    int set_dims[2] = {dims[0],other.dims[1]};
+    Tensor* product = new Tensor(2,set_dims);
+
+    unsigned a_row,a_col,b_col;
+    float sum;
+
+    for(a_row = 0; a_row < dims[0]; a_row++){
+        for(b_col = 0; b_col < other.dims[1]; b_col++){
+            sum = 0.0;
+            for(a_col = 0; a_col < dims[1]; a_col++){
+                sum += data[a_row*dims[1] + a_col]*other.data[a_col*other.dims[1] + b_col];
+            }
+            product->set(sum,a_row*other.dims[1] + b_col);
+        }
+    }
+
+    return product;
 }
 
 float Tensor::get(int coords){
